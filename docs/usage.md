@@ -23,6 +23,16 @@ Or as a Python module:
 uv run python -m second_brain
 ```
 
+## Log Format
+
+Output uses a compact format with 3-character level abbreviations and consistent `|` separators:
+
+```
+2026-03-21 14:32:05 | INF | second_brain.app:main:39 | Hello from second_brain!
+```
+
+Level abbreviations: `DBG`, `INF`, `WRN`, `ERR`, `CRT`.
+
 ## Environment Variables
 
 | Variable    | Default    | Description                          |
