@@ -12,22 +12,36 @@ uv sync
 
 ## Usage
 
-Via the CLI entrypoint:
+Save a quick thought:
 
 ```bash
-uv run second_brain
+uv run second_brain new "My brilliant idea about caching"
+```
+
+List saved notes:
+
+```bash
+uv run second_brain list
+```
+
+Example output:
+
+```
+Notes in: /Users/you/second_brain
+1. 2026-03-21_143205.md
+2. 2026-03-21_160012.md
 ```
 
 With dev environment variables:
 
 ```bash
-uv run --env-file .env second_brain
+uv run --env-file .env second_brain new "Another thought"
 ```
 
 Via the Python module:
 
 ```bash
-uv run python -m second_brain
+uv run python -m second_brain new "Works this way too"
 ```
 
 ## Log Format
@@ -35,7 +49,7 @@ uv run python -m second_brain
 Output uses a compact format with 3-character level abbreviations and consistent `|` separators:
 
 ```
-2026-03-21 14:32:05 | INF | second_brain.app:main:39 | Hello from second_brain!
+2026-03-21 14:32:05 | INF | second_brain.app:new:55 | Saved note: 2026-03-21_143205.md
 ```
 
 Level abbreviations: `DBG`, `INF`, `WRN`, `ERR`, `CRT`.
@@ -48,10 +62,11 @@ Copy `.env.example` to `.env` for development defaults:
 cp .env.example .env
 ```
 
-| Variable    | Default   | Description                                          |
-|-------------|-----------|------------------------------------------------------|
-| `LOG_LEVEL` | `INFO`    | Console log level. Set to `DEBUG` in `.env` for verbose output. |
-| `LOG_FILE`  | `app.log` | Path to the log file.                                |
+| Variable    | Default            | Description                                          |
+|-------------|--------------------|------------------------------------------------------|
+| `NOTES_DIR` | `~/second_brain`   | Directory where notes are stored.                    |
+| `LOG_LEVEL` | `INFO`             | Console log level. Set to `DEBUG` in `.env` for verbose output. |
+| `LOG_FILE`  | `app.log`          | Path to the log file.                                |
 
 Note: `uv run --env-file .env` loads the dev environment explicitly — variables are not auto-loaded.
 
