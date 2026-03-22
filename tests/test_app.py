@@ -1,12 +1,8 @@
 import re
 
-from second_brain.app import FORMAT, main
+from loguru import logger
 
-
-def test_main_logs_greeting(capfd):
-    main()
-    captured = capfd.readouterr()
-    assert "Hello from second_brain!" in captured.err
+from second_brain.app import FORMAT, configure_logging
 
 
 def test_format_constant_contains_expected_parts():
@@ -16,21 +12,24 @@ def test_format_constant_contains_expected_parts():
 
 
 def test_timestamp_has_no_milliseconds(capfd):
-    main()
+    configure_logging()
+    logger.info("test")
     captured = capfd.readouterr()
     # Match YYYY-MM-DD HH:MM:SS but ensure no trailing .digits (milliseconds)
     assert re.search(r"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} \|", captured.err)
 
 
 def test_level_is_three_char_abbreviation(capfd):
-    main()
+    configure_logging()
+    logger.info("test")
     captured = capfd.readouterr()
     assert "| INF |" in captured.err
     assert "INFO" not in captured.err
 
 
 def test_consistent_separator(capfd):
-    main()
+    configure_logging()
+    logger.info("test")
     captured = capfd.readouterr()
     # The old format used " - " before the message; new format uses " | " throughout
     assert " - " not in captured.err
