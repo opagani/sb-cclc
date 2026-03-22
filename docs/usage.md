@@ -32,6 +32,14 @@ Notes in: /Users/you/second_brain
 2. 2026-03-21_160012.md
 ```
 
+### Read a note
+
+```bash
+uv run second_brain show 2
+```
+
+Prints the content of the note at that position in the list.
+
 ### Running with dev settings
 
 ```bash

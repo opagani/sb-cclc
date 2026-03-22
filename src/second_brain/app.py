@@ -60,23 +60,37 @@ def new(thought):
     click.echo(f"Saved: {filepath}")
 
 
+def _get_sorted_notes():
+    """Return sorted list of markdown files in the notes directory."""
+    notes_dir = get_notes_dir()
+    if not notes_dir.exists():
+        return []
+    return sorted(f for f in notes_dir.iterdir() if f.suffix == ".md")
+
+
 @cli.command("list")
 def list_notes():
     """List all saved notes."""
     notes_dir = get_notes_dir()
     click.echo(f"Notes in: {notes_dir}")
 
-    if not notes_dir.exists():
-        click.echo("No notes yet.")
-        return
-
-    files = sorted(f for f in notes_dir.iterdir() if f.suffix == ".md")
+    files = _get_sorted_notes()
     if not files:
         click.echo("No notes yet.")
         return
 
     for i, f in enumerate(files, 1):
         click.echo(f"{i}. {f.name}")
+
+
+@cli.command()
+@click.argument("number", type=int)
+def show(number):
+    """Print the content of a note by its list number."""
+    files = _get_sorted_notes()
+    if not files or number < 1 or number > len(files):
+        raise click.ClickException(f"Invalid note number: {number}")
+    click.echo(files[number - 1].read_text(), nl=False)
 
 
 def main():

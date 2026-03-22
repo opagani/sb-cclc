@@ -89,6 +89,38 @@ def test_list_missing_directory(runner, notes_dir):
     assert "No notes" in result.output
 
 
+# -- second_brain show --
+
+
+def test_show_prints_note_content(runner, notes_dir):
+    notes_dir.mkdir(parents=True)
+    (notes_dir / "2026-03-21_140000.md").write_text("First thought\n")
+    (notes_dir / "2026-03-21_150000.md").write_text("Second thought\n")
+    result = runner.invoke(cli, ["show", "2"])
+    assert result.exit_code == 0
+    assert "Second thought" in result.output
+
+
+def test_show_invalid_number_zero(runner, notes_dir):
+    notes_dir.mkdir(parents=True)
+    (notes_dir / "2026-03-21_140000.md").write_text("First\n")
+    result = runner.invoke(cli, ["show", "0"])
+    assert result.exit_code != 0
+
+
+def test_show_number_out_of_range(runner, notes_dir):
+    notes_dir.mkdir(parents=True)
+    (notes_dir / "2026-03-21_140000.md").write_text("Only note\n")
+    result = runner.invoke(cli, ["show", "5"])
+    assert result.exit_code != 0
+
+
+def test_show_empty_directory(runner, notes_dir):
+    notes_dir.mkdir(parents=True)
+    result = runner.invoke(cli, ["show", "1"])
+    assert result.exit_code != 0
+
+
 # -- NOTES_DIR default --
 
 

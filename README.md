@@ -32,6 +32,12 @@ Notes in: /Users/you/second_brain
 2. 2026-03-21_160012.md
 ```
 
+Read a note by its number:
+
+```bash
+uv run second_brain show 2
+```
+
 With dev environment variables:
 
 ```bash
